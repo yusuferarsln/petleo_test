@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "830111814959",
+    "project_id": "petleo-test",
+    "storage_bucket": "petleo-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830111814959:android:f3fdc7ea8e2d5e49e23dda",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFMeeQnSMb8HYd6wdI6fU63VXRA5VwkhU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
