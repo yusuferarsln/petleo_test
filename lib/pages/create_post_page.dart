@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:petleo_test/constants/app_colors.dart';
+import 'package:petleo_test/extensions/content_extension.dart';
+import 'package:petleo_test/pages/live_section.dart';
+import 'package:petleo_test/providers/live_section_provider.dart';
 import 'package:petleo_test/services/api_service.dart';
 
 class CreatePostPage extends StatefulWidget {
@@ -15,7 +19,6 @@ class CreatePostPage extends StatefulWidget {
 class _CreatePostPageState extends State<CreatePostPage> {
   File? pickedFile;
   late var image;
-  bool isPosting = false;
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -101,33 +104,36 @@ class _CreatePostPageState extends State<CreatePostPage> {
               ),
             ),
             SizedBox(height: 20),
-            Container(
-              width: _width * 0.4,
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (pickedFile == null) {
+            Consumer(builder: (context, ref, child) {
+              return Container(
+                width: _width * 0.4,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (pickedFile == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Please select an image')),
+                      );
+                      return;
+                    }
+
+                    final text = _textController.text;
+                    await api.postImage(image, text);
+
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Please select an image')),
+                      SnackBar(content: Text('Post submitted')),
                     );
-                    return;
-                  }
+                    ref.read(liveSectionProvider.notifier).fetch();
 
-                  final text = _textController.text;
-                  await api.postImage(image, text);
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Post submitted')),
-                  );
-
-                  // Optionally, clear the form
-                  setState(() {
-                    pickedFile = null;
-                    _textController.clear();
-                  });
-                },
-                child: Text('POST'),
-              ),
-            ),
+                    // Optionally, clear the form
+                    setState(() {
+                      pickedFile = null;
+                      _textController.clear();
+                    });
+                  },
+                  child: Text('POST'),
+                ),
+              );
+            }),
           ],
         ),
       ),
