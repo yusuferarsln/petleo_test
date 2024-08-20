@@ -7,6 +7,7 @@ import 'package:petleo_test/extensions/content_extension.dart';
 import 'package:petleo_test/pages/home_page.dart';
 import 'package:petleo_test/pages/sign_in_page.dart';
 import 'package:petleo_test/providers/firebase_provider.dart';
+import 'package:petleo_test/providers/live_section_provider.dart';
 import 'package:petleo_test/states/auth_state.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -23,6 +24,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(liveSectionProvider.notifier).fetch();
+    });
 
     _controller =
         AnimationController(duration: const Duration(seconds: 3), vsync: this)
