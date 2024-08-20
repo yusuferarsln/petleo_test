@@ -86,4 +86,36 @@ class ApiService {
       });
     });
   }
+
+  Future<List<Map<String, dynamic>>> getUserPosts(String userId) async {
+    QuerySnapshot postSnapshot = await FirebaseFirestore.instance
+        .collection('live')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    List<Map<String, dynamic>> userPosts = [];
+
+    for (var postDoc in postSnapshot.docs) {
+      Map<String, dynamic> postData = postDoc.data() as Map<String, dynamic>;
+      postData['postId'] = postDoc.id;
+
+      userPosts.add(postData);
+    }
+
+    return userPosts;
+  }
+
+  Future<String> getUserDetail(String userId) async {
+    print(userId);
+    DocumentSnapshot userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    print(userDoc.data());
+    if (userDoc.exists) {
+      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+      print(userData);
+      return userData['userName'] ?? 'Anonymous';
+    } else {
+      return 'Unknown User';
+    }
+  }
 }
