@@ -6,6 +6,7 @@ import 'package:petleo_test/pages/create_post_page.dart';
 import 'package:petleo_test/pages/live_section.dart';
 import 'package:petleo_test/pages/profile_page.dart';
 import 'package:petleo_test/pages/sign_in_page.dart';
+import 'package:petleo_test/providers/live_section_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,6 +22,12 @@ class _HomePageState extends State<HomePage> {
     const CreatePostPage(),
     ProfilePage()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
